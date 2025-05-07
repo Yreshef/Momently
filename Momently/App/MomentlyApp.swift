@@ -11,7 +11,7 @@ import SwiftUI
 struct MomentlyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MomentlyDetailView()
         }
     }
 }

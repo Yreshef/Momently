@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MomentlyDetailView.swift
 //  Momently
 //
 //  Created by Yohai on 07/05/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MomentlyDetailView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -20,5 +20,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MomentlyDetailView()
 }
