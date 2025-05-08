@@ -10,7 +10,13 @@ import SwiftUI
 struct MomentlyDetailView: View {
 
     @ObservedObject var viewModel: MomentlyDetailViewModel
+
     @State private var isShowingDatePicker = false
+
+    @State private var isShowingImagePicker = false
+    @State private var isShowingSourceDialog = false
+    @State private var pickerError: PhotoAccessError?
+    @State private var isShowingErrorAlert = false
 
     var body: some View {
         ScrollView {
@@ -34,14 +40,18 @@ struct MomentlyDetailView: View {
                         get: { viewModel.birthday ?? Date() },
                         set: { viewModel.birthday = $0 }
                     ),
-                    in: ...Date(),
+                    in: ...Calendar.current.startOfDay(for: Date()),
                     displayedComponents: .date
                 )
                 .datePickerStyle(.wheel)
                 .labelsHidden()
                 .padding()
+                .ignoresSafeArea(.keyboard)
 
                 Button("Done") {
+                    if viewModel.birthday == nil {
+                        viewModel.birthday = Calendar.current.startOfDay(for: Date())
+                    }
                     isShowingDatePicker = false
                 }
                 .font(.headline)
@@ -49,38 +59,91 @@ struct MomentlyDetailView: View {
             }
             .padding()
         }
+        .sheet(isPresented: $isShowingImagePicker) {
+            ImagePicker(
+                sourceType: viewModel.currentSource == .camera
+                    ? .camera : .photoLibrary,
+                onImagePicked: { image in
+                    Task { @MainActor in
+                        viewModel.handleImagePicked(image)
+                    }
+                }
+            )
+        }
+        .alert(isPresented: $isShowingErrorAlert, error: pickerError) { 
+            Button("OK", role: .cancel) { }
+        }
     }
 
     private var photoSection: some View {
-        Button(action: {
-            viewModel.handlePhotoTapped()
-        }) {
-            ZStack {
-                Circle()
-                    .fill(Color(.systemGray6))
-                    .frame(width: 200, height: 200)
-                    .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 2)
+        VStack {
+            Button(action: {
+                isShowingSourceDialog = true
+            }) {
+                ZStack {
+                    Circle()
+                        .fill(Color(.systemGray6))
+                        .frame(width: 200, height: 200)
+                        .shadow(
+                            color: .black.opacity(0.3), radius: 5, x: 0, y: 2)
 
-                if let image = viewModel.selectedImage {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 189, height: 190)
-                        .clipShape(Circle())
-                } else {
-                    VStack(spacing: 12) {
-                        Image("BabyPlaceholderGreen")
+                    if let image = viewModel.selectedImage {
+                        Image(uiImage: image)
                             .resizable()
-                            .scaledToFit()
-                            .frame(width: 160, height: 160)
+                            .scaledToFill()
+                            .frame(width: 189, height: 190)
+                            .clipShape(Circle())
+                    } else {
+                        VStack(spacing: 12) {
+                            Image("BabyPlaceholderGreen")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 160, height: 160)
+                        }
+                        .frame(width: 200, height: 200)
                     }
-                    .frame(width: 200, height: 200)
                 }
             }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Baby Photo")
+            .accessibilityHint("Double tap to select or change baby's photo")
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Baby Photo")
-        .accessibilityHint("Double tap to select or change baby's photo")
+        .confirmationDialog(
+            "Select Photo Source", isPresented: $isShowingSourceDialog,
+            titleVisibility: .visible
+        ) {
+            Button("Photo Library") {
+                Task {
+                    do {
+                        try await viewModel.prepareImagePicker(
+                            for: .photoLibrary)
+                        await MainActor.run { isShowingImagePicker = true }
+                    } catch let error as PhotoAccessError {
+                        await MainActor.run {
+                            pickerError = error
+                            isShowingErrorAlert = true
+                        }
+                    }
+                }
+            }
+            Button("Camera") {
+                Task {
+                    do {
+                        try await viewModel.prepareImagePicker(
+                            for: .camera)
+                        await MainActor.run {
+                            isShowingImagePicker = true
+                        }
+                    } catch let error as PhotoAccessError  {
+                        await MainActor.run {
+                            pickerError = error
+                            isShowingErrorAlert = true
+                        }
+                    }
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        }
     }
 
     private var formSection: some View {

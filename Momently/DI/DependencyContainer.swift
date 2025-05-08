@@ -8,10 +8,12 @@
 import Foundation
 
 protocol DependencyProviding {
-    
+    var permissionsService: PhotoPermissionChecking { get }
 }
 
 final class DependencyContainer: DependencyProviding {
+    
+    var permissionsService: PhotoPermissionChecking = PermissionService()
     
     init() { }
     
