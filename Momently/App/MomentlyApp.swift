@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct MomentlyApp: App {
+    
+    let container: DependencyProviding = DependencyContainer()
+    let viewModelFactory: ViewModelFactory
+    
+    init() {
+        viewModelFactory = ViewModelFactory(container: container)
+    }
+    
     var body: some Scene {
         WindowGroup {
-            MomentlyDetailView()
+            MomentlyDetailView(viewModel: viewModelFactory.makeMomentlyDetailViewModel())
         }
     }
 }
