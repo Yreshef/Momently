@@ -16,6 +16,8 @@ final class ViewModelFactory {
     }
     
     func makeMomentlyDetailViewModel() -> MomentlyDetailViewModel {
-        return MomentlyDetailViewModel(permissionsService: container.permissionsService)
+        return MomentlyDetailViewModel(permissionsService: container.permissionsService,
+                                       store: BabyProfileStore(persistence: container.persistenceService)
+                                       )
     }
 }

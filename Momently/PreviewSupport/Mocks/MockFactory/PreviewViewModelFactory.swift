@@ -10,7 +10,7 @@ import UIKit
 
 enum PreviewViewModelFactory {
     static func makeDetailViewModel() -> MomentlyDetailViewModel {
-        let vm = MomentlyDetailViewModel(permissionsService: MockPermissionService(mode: .allowAll))
+        let vm = MomentlyDetailViewModel(permissionsService: MockPermissionService(mode: .allowAll), store: MockBabyProfileStore())
         vm.babyName = "Lionel Messi"
         vm.birthday = Calendar.current.date(byAdding: .year, value: -30, to: Date())
         vm.selectedImage = UIImage(systemName: "BabyPlaceholderGreen")

@@ -73,6 +73,9 @@ struct MomentlyDetailView: View {
         .alert(isPresented: $isShowingErrorAlert, error: pickerError) { 
             Button("OK", role: .cancel) { }
         }
+        .alert(item: $viewModel.profileError) { error in
+            Alert(title: Text("Error"), message: Text(error.localizedDescription), dismissButton: .default(Text("OK")))
+        }
     }
 
     private var photoSection: some View {
@@ -181,7 +184,7 @@ struct MomentlyDetailView: View {
 
     private var ctaButton: some View {
         Button(action: {
-            viewModel.showBirthdayScreen()
+            viewModel.saveProfile()
         }) {
             Text("Show Birthday Screen")
                 .font(.system(.headline, design: .rounded))

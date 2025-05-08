@@ -9,11 +9,13 @@ import Foundation
 
 protocol DependencyProviding {
     var permissionsService: PhotoPermissionChecking { get }
+    var persistenceService: PersistenceService { get }
 }
 
 final class DependencyContainer: DependencyProviding {
     
     var permissionsService: PhotoPermissionChecking = PermissionService()
+    var persistenceService: PersistenceService = DefaultPeristenceService()
     
     init() { }
     
