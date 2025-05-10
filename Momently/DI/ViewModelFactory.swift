@@ -5,7 +5,7 @@
 //  Created by Yohai on 07/05/2025.
 //
 
-import Foundation
+import UIKit
 
 final class ViewModelFactory {
     
@@ -17,7 +17,12 @@ final class ViewModelFactory {
     
     func makeMomentlyDetailViewModel() -> MomentlyDetailViewModel {
         return MomentlyDetailViewModel(permissionsService: container.permissionsService,
-                                       store: BabyProfileStore(persistence: container.persistenceService)
+                                       store: BabyProfileStore(persistence: container.persistenceService),
+                                       buildBirthdayViewModel: makeBirthdayViewModel
                                        )
+    }
+    
+    func makeBirthdayViewModel(profile: BabyProfile, image: UIImage?) -> MomentlyBirthdayViewModel {
+        MomentlyBirthdayViewModel(profile: profile, image: image)
     }
 }

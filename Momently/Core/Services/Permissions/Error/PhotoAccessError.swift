@@ -11,6 +11,7 @@ enum PhotoAccessError: Error, LocalizedError {
     case cameraUnavailable
     case cameraAccessDenied
     case photoAccessDenied
+    case unknown
 
     var errorDescription: String? {
         switch self {
@@ -20,6 +21,8 @@ enum PhotoAccessError: Error, LocalizedError {
             return "Camera access is denied. Please enable it in Settings."
         case .photoAccessDenied:
             return "Photo library access is denied. Please enable it in Settings."
+        case .unknown:
+            return "An unknown error occurred while accessing photos."
         }
     }
 }

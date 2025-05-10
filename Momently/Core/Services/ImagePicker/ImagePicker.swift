@@ -14,40 +14,77 @@ enum ImageSource {
 }
 
 struct ImagePicker: UIViewControllerRepresentable {
-    
-    @Environment(\.presentationMode) var presentationMode
-    let sourceType: UIImagePickerController.SourceType
-    let onImagePicked: (UIImage?) -> Void
-    
+    var sourceType: UIImagePickerController.SourceType
+    var onImagePicked: (UIImage?) -> Void
+
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.sourceType = sourceType
         picker.delegate = context.coordinator
         return picker
     }
-    
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) { }
-    
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
     func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
+        Coordinator(onImagePicked: onImagePicked)
     }
-    
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        let parent: ImagePicker
-        
-        init(parent: ImagePicker) {
-            self.parent = parent
+
+    final class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        let onImagePicked: (UIImage?) -> Void
+
+        init(onImagePicked: @escaping (UIImage?) -> Void) {
+            self.onImagePicked = onImagePicked
         }
-        
+
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             let image = info[.originalImage] as? UIImage
-            parent.onImagePicked(image)
-            parent.presentationMode.wrappedValue.dismiss()
+            onImagePicked(image)
+            picker.dismiss(animated: true)
         }
-        
+
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.onImagePicked(nil)
-            parent.presentationMode.wrappedValue.dismiss()
+            onImagePicked(nil)
+            picker.dismiss(animated: true)
         }
     }
 }
+
+//struct ImagePicker: UIViewControllerRepresentable {
+//    
+//    @Environment(\.presentationMode) var presentationMode
+//    let sourceType: UIImagePickerController.SourceType
+//    let onImagePicked: (UIImage?) -> Void
+//    
+//    func makeUIViewController(context: Context) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.sourceType = sourceType
+//        picker.delegate = context.coordinator
+//        return picker
+//    }
+//    
+//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) { }
+//    
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(parent: self)
+//    }
+//    
+//    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+//        let parent: ImagePicker
+//        
+//        init(parent: ImagePicker) {
+//            self.parent = parent
+//        }
+//        
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//            let image = info[.originalImage] as? UIImage
+//            parent.onImagePicked(image)
+//            parent.presentationMode.wrappedValue.dismiss()
+//        }
+//        
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            parent.onImagePicked(nil)
+//            parent.presentationMode.wrappedValue.dismiss()
+//        }
+//    }
+//}
