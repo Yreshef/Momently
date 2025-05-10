@@ -10,9 +10,22 @@
 		65455E982DCB9C3A005FFB6F /* Momently.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Momently.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6557DDFC2DCFFBE7000E3F6A /* Exceptions for "Momently" folder in "Momently" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 65455E972DCB9C3A005FFB6F /* Momently */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		65455E9A2DCB9C3A005FFB6F /* Momently */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6557DDFC2DCFFBE7000E3F6A /* Exceptions for "Momently" folder in "Momently" target */,
+			);
 			path = Momently;
 			sourceTree = "<group>";
 		};
@@ -255,6 +268,7 @@
 				DEVELOPMENT_TEAM = 66G95X29R7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Momently/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to let you take a photo for your baby's moment.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This lets us save birthday moments to your photo library if you choose to.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to let you choose an existing picture.";
@@ -263,6 +277,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -288,6 +303,7 @@
 				DEVELOPMENT_TEAM = 66G95X29R7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Momently/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to let you take a photo for your baby's moment.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This lets us save birthday moments to your photo library if you choose to.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to let you choose an existing picture.";
@@ -296,6 +312,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

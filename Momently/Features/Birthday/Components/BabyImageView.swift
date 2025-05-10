@@ -10,19 +10,31 @@ import SwiftUI
 struct BabyImageView: View {
     
     @ObservedObject var viewModel: MomentlyBirthdayViewModel
-    let backgroundIndex: Int
+    let theme: BirthdayTheme
+    private var resolvedImage: UIImage {
+        viewModel.displayImage ?? .named(theme.defaultAvatarName)
+    }
 
     var body: some View {
-        Image(uiImage: viewModel.displayImage ?? UIImage(named: "baby_default_\(backgroundIndex)")!)
+        let size: CGFloat = 220
+        Image(uiImage: resolvedImage)
             .resizable()
-            .scaledToFit()
-            .frame(width: 220, height: 220)
+            .scaledToFill()
+            .frame(width: size, height: size)
             .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(theme.backgroundColor, lineWidth: 8)
+            )
+            .background(
+                Circle()
+                    .fill(theme.backgroundColor)
+            )
             .shadow(radius: 10)
             .padding(.horizontal, 50)
     }
 }
 
 #Preview {
-    BabyImageView(viewModel: PreviewViewModelFactory.makeBirthdayViewModel(), backgroundIndex: 1)
+    BabyImageView(viewModel: PreviewViewModelFactory.makeBirthdayViewModel(), theme: BirthdayTheme(rawValue: 1) ?? .yellow)
 }

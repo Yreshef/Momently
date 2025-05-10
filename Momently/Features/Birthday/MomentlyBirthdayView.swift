@@ -12,19 +12,12 @@ struct MomentlyBirthdayView: View {
     @ObservedObject var viewModel: MomentlyBirthdayViewModel
     @Environment(\.dismiss) private var dismiss
     private let backgroundIndex: Int
+    private let theme: BirthdayTheme
     
     init(viewModel: MomentlyBirthdayViewModel, _ previewIndex: Int? = nil) {
         self.viewModel = viewModel
         self.backgroundIndex = previewIndex ?? Int.random(in: 1...3)
-    }
-    
-    private var backgroundColor: Color {
-        switch backgroundIndex {
-        case 1: return .birthdayBlue
-        case 2: return .birthdayGreen
-        case 3: return .birthdayYellow
-        default: return .clear
-        }
+        self.theme = BirthdayTheme(rawValue: backgroundIndex) ?? .blue
     }
 
     var body: some View {
@@ -43,11 +36,11 @@ struct MomentlyBirthdayView: View {
                     .padding(.bottom, 90)
             }
             .zIndex(2)
-            BabyImageView(viewModel: viewModel, backgroundIndex: backgroundIndex)
+            BabyImageView(viewModel: viewModel, theme: theme)
                 .padding(.bottom, 100)
        
         }
-        .background(backgroundColor)
+        .background(theme.backgroundColor)
         .safeAreaInset(edge: .top) {
             HStack(alignment: .center) {
                 Button(action: { dismiss() }) {
@@ -67,7 +60,7 @@ struct MomentlyBirthdayView: View {
     
     private var backgroundLayer: some View {
         VStack(spacing: 0) {
-            Image("birthday_bg_\(backgroundIndex)")
+            theme.backgroundImage
                 .resizable()
                 .scaledToFit()
                 .frame(maxHeight: .infinity, alignment: .bottom)
