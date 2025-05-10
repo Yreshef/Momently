@@ -8,6 +8,11 @@
 import SwiftUI
 import UIKit
 
+enum ImageSource {
+    case camera
+    case photoLibrary
+}
+
 struct ImagePicker: UIViewControllerRepresentable {
     
     @Environment(\.presentationMode) var presentationMode

@@ -17,7 +17,7 @@ struct MomentlyDetailView: View {
     @State private var isShowingSourceDialog = false
     @State private var pickerError: PhotoAccessError?
     @State private var isShowingErrorAlert = false
-
+        
     var body: some View {
         ScrollView {
             VStack(spacing: 34) {
@@ -98,7 +98,7 @@ struct MomentlyDetailView: View {
                             .clipShape(Circle())
                     } else {
                         VStack(spacing: 12) {
-                            Image("BabyPlaceholderGreen")
+                            Image("baby_default_2")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 160, height: 160)
